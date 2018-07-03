@@ -1,49 +1,136 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+    <title>Drupal Developer Days Lisbon 2018: Drupal and cache</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/DDD2018.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
-			</div>
-		</div>
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName('head')[0].appendChild(link);
+    </script>
+  </head>
+  <body>
+    <div class="reveal ddd2018">
+      <div class="slides">
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+        <!-- ################## FIRST SLIDE ################## -->
+        <section
+          class="section-slide"
+          data-background-transition="fade"
+          data-transition="fade"
+          data-background="images/DDD2018/DDD2018_Intro_Belem_tower.png"
+          data-background-color="#4d73ae"
+          >
+          <h1 class="mainTitle">Modular software, modular Infrastructure - let's build base Docker images together.</h1>
+          <h2 class="mainSubtitle">
+           Jakub Piasecki
+          </h2>
+        </section>
 
-		<script>
-			// More info about config & dependencies:
-			// - https://github.com/hakimel/reveal.js#configuration
-			// - https://github.com/hakimel/reveal.js#dependencies
-			Reveal.initialize({
-				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-				]
-			});
-		</script>
-	</body>
+        <!-- ################## Diamond Sponsor SLIDE ################## -->
+        <section
+          class="section-slide"
+          data-background-transition="fade"
+          data-transition="fade"
+          data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+          <h1>Diamond Sponsor</h1>
+          <img src="images/DDD2018/sponsors-diamond.png">
+        </section>
+
+        <!-- ################## Platinum Sponsor SLIDE ################## -->
+        <section
+          class="section-slide"
+          data-background-transition="fade"
+          data-transition="fade"
+          data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+          <h1>Platinum Sponsor</h1>
+          <img src="images/DDD2018/sponsors-platinium.png">
+        </section>
+
+        <!-- ################## Gold Sponsor SLIDE ################## -->
+        <section
+          class="section-slide"
+          data-background-transition="fade"
+          data-transition="fade"
+          data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+          <h1>Gold Sponsor</h1>
+          <img src="images/DDD2018/sponsors-gold.png">
+        </section>
+
+        <!-- ################## Quote SLIDE ################## -->
+        <section
+          class="section-slide"
+          data-background-transition="fade"
+          data-transition="fade"
+          data-background="images/DDD2018/DDD2018_quote_bg.png"
+          data-background-color="#4d73ae"
+          >
+          <h1 class="sectionTitle">SECTION OR QUOTE</h1>
+          <h2 class="sectionSubtitle">Authors Name</h2>
+        </section>
+
+        <!-- ################## text SLIDE ################## -->
+        <section
+          class="section-slide"
+          data-background-transition="fade"
+          data-transition="fade"
+          data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+          <h1>Slide title</h1>
+          <ul>
+            <li>Item level 1</li>
+            <li>Item level 1
+              <ul>
+                <li>Item level 2</li>
+                <li>Item level 2</li>
+              </ul>
+            </li>
+            <li>Item level 1</li>
+            <li>Item level 1</li>
+            <li>Item level 1</li>
+          </ul>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        history: true,
+
+        // More info https://github.com/hakimel/reveal.js#dependencies
+        dependencies: [
+          {src: 'plugin/markdown/marked.js'},
+          {src: 'plugin/markdown/markdown.js'},
+          {src: 'plugin/zoom-js/zoom.js', async: true},
+          {src: 'plugin/notes/notes.js', async: true},
+          {
+            src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+              hljs.initHighlightingOnLoad();
+            }
+          }
+        ]
+      });
+    </script>
+  </body>
 </html>

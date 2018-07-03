@@ -1,0 +1,141 @@
+/**
+ * White theme for reveal.js. This is the opposite of the 'black' theme.
+ *
+ * By Hakim El Hattab, http://hakim.se
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+// Include theme-specific fonts
+
+// Override theme settings (see ../template/settings.scss)
+$backgroundColor: #fff;
+
+$mainColor: rgb(77, 115, 174);
+$headingColor: rgb(77, 115, 174);
+
+$mainFontSize: 36px;
+$mainFont: Arial,Helvetica Neue,Helvetica,sans-serif;
+$headingFont: Arial,Helvetica Neue,Helvetica,sans-serif;
+$headingTextShadow: none;
+$headingLetterSpacing: normal;
+$headingTextTransform: none;
+$headingFontWeight: 400;
+$linkColor: $mainColor;
+$linkColorHover: lighten( $linkColor, 15% );
+$selectionBackgroundColor: lighten( $linkColor, 25% );
+
+$heading1Size: 2em;
+$heading2Size: 1.6em;
+$heading3Size: 1.3em;
+$heading4Size: 1.0em;
+
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
+
+
+/*********************************************
+ * NAVIGATION CONTROLS
+ *********************************************/
+
+// Theme styles ------------------------------
+.reveal.ddd2018 {
+
+  .controls {
+    width: 110px;
+    height: 100px;
+    right: 10px;
+    bottom: 0px;
+  }
+
+  .controls .navigate-left,
+  .controls .navigate-left.enabled {
+    border-right-color: $backgroundColor; }
+
+  .controls .navigate-right,
+  .controls .navigate-right.enabled {
+    border-left-color: $backgroundColor; }
+
+  .controls .navigate-up,
+  .controls .navigate-up.enabled {
+    border-bottom-color: $backgroundColor; }
+
+  .controls .navigate-down,
+  .controls .navigate-down.enabled {
+    border-top-color: $backgroundColor; }
+
+  .controls .navigate-left.enabled:hover {
+    border-right-color: $backgroundColor; }
+
+  .controls .navigate-right.enabled:hover {
+    border-left-color: $backgroundColor; }
+
+  .controls .navigate-up.enabled:hover {
+    border-bottom-color: $backgroundColor; }
+
+  .controls .navigate-down.enabled:hover {
+    border-top-color: $backgroundColor; }
+
+  .slide-number {
+    right: 50px;
+    bottom: 35px;
+    background-color: rgba( 255, 255, 255, 0 );
+  }
+
+
+  /*********************************************
+   * PROGRESS BAR
+   *********************************************/
+  .progress {
+    background: rgba(0, 0, 0, 0.2); }
+
+  .progress span {
+    background: $backgroundColor;
+    -webkit-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+    -moz-transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985);
+    transition: width 800ms cubic-bezier(0.26, 0.86, 0.44, 0.985); }
+
+
+
+
+  section.has-dark-background {
+    &, h1, h2, h3, h4, h5, h6, a {
+      color: #fff;
+      
+    }
+  }
+
+  section img {
+    margin: 15px 0px;
+    background: transparent;
+    border: 0;
+    box-shadow: 0 0 0 0;
+  }
+
+  .mainTitle {
+    font-size: 6rem;
+  }
+
+
+  .mainSubtitle {
+    font-size: 2rem;
+  }
+
+  .sectionTitle {
+    font-size: 4rem;
+  }
+
+
+  .sectionSubtitle {
+    font-size: 0.8rem;
+    font-style: italic;
+  }
+
+}
