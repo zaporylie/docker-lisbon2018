@@ -72,38 +72,632 @@
           <img src="images/DDD2018/sponsors-gold.png">
         </section>
 
-        <!-- ################## Quote SLIDE ################## -->
+        <!--About me.-->
         <section
-          class="section-slide"
-          data-background-transition="fade"
-          data-transition="fade"
-          data-background="images/DDD2018/DDD2018_quote_bg.png"
-          data-background-color="#4d73ae"
-          >
-          <h1 class="sectionTitle">SECTION OR QUOTE</h1>
-          <h2 class="sectionSubtitle">Authors Name</h2>
+                class="section-slide"
+                data-background-transition="fade"
+                data-transition="fade"
+                data-background="images/DDD2018/DDD2018_white_bg.png"
+        >
+          <h1>Who am I</h1>
+          <ul>
+            <li>@zaporylie</li>
+            <li>CTO @Linkfactory A/S</li>
+            <li>drupal-docker lead</li>
+            <li>Drupal contributor</li>
+            <aside class="notes">
+              Since march working for Linkfactory. Big thanks to Linkfactory for sponsoring my trip jere and opportunity
+              to give this talk.
+              Been drupal-docker lead for last 3 years.
+              Been around Drupal for over 7 years.
+            </aside>
+          </ul>
         </section>
 
-        <!-- ################## text SLIDE ################## -->
-        <section
-          class="section-slide"
-          data-background-transition="fade"
-          data-transition="fade"
-          data-background="images/DDD2018/DDD2018_white_bg.png"
+        <!--Helpers to this session.-->
+        <section>
+          <!--What is it about-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
           >
-          <h1>Slide title</h1>
-          <ul>
-            <li>Item level 1</li>
-            <li>Item level 1
+            <h1>What is this session about</h1>
+            <ul>
+              <li>Infrastructure as a code</li>
+              <li>Infrastructure's modularity</li>
+              <li>Best practices</li>
+              <li>Brainstorming</li>
+            </ul>
+          </section>
+          <!--What is it not about-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <h1>What is this session NOT about</h1>
+            <ul>
+              <li>Giving simple recipes</li>
+              <li>Running Docker on production :)</li>
+            </ul>
+          </section>
+          <!--Glossary -->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <h1>Glossary</h1>
+            <ul>
+              <li>Application - the (Drupal) project you want to/are running</li>
+              <li>Infrastructure - the environment in which the application is running</li>
+            </ul>
+          </section>
+        </section>
+
+        <section>
+          <!-- Presentation subject: Problem definition -->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background-color="#4d73ae"
+          >
+            <h1 class="sectionTitle">Application heavily depends on the infrastructure, <span class="fragment">therefore
+              infrastructure must be committed to the application.</span></h1>
+            <aside class="notes">
+              Bold statement, I know, but it's basically TRUE. Your application depends on the list of services, such as
+              PHP in certain version, nginx configuration, mysql/postgres, etc.
+            </aside>
+          </section>
+
+          <!-- Presentation subject: Problem definition - explanation -->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background-color="#4d73ae"
+          >
+            <h1 class="sectionTitle">Infrastructure is code. <span class="fragment">It must follow basic coding principles.</span></h1>
+            <aside class="notes">
+              Yes yes yes. Sure you could "compile" image into .iso file or similar format. But what's the point? You
+              could compile your application (create artifact of application state) into the same .iso  file every time
+              you commit to the repo. So better to keep your infrastructure in human readable format - the code.
+            </aside>
+          </section>
+
+          <!-- Existing solutions -->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <ul>
+              <li>Vagrantfile</li>
+              <li>Ansible</li>
+              <li>Docker</li>
+              <li>more...</li>
+            </ul>
+            <aside class="notes">
+              There is already multiple formats that allows you to provision infrastructure from text file. Just to name few (list).
+              We are developers. We love new hipster stuff. Lets go hipster...
+            </aside>
+          </section>
+        </section>
+        <section>
+          <!-- The solution we are focusing on during this presentation. -->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background-color="#4d73ae"
+          >
+            <h1 class="sectionTitle">Docker</h1>
+            <aside class="notes">
+              For further divagation let's choose Docker. Oh, yet another time someone talks about Docker. That's boring.
+              I would like to try another approach on the way we look at Docker. Rather than say how to use Docker in
+              your project let's take step back and thing of Docker as a code - can we, as a developers, apply same rules/principles
+              we apply for our applications.
+            </aside>
+          </section>
+
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <h1 class="sectionTitle">Dockerfile</h1>
+            <pre><code data-trim data-noescape>
+              FROM php:7.0-fpm-alpine
+              MAINTAINER drupal-docker
+
+              RUN apk add --no-cache --virtual .dd-build-deps libpng-dev libjpeg-turbo-dev postgresql-dev libxml2-dev $PHPIZE_DEPS \
+              && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
+              && docker-php-ext-install gd mbstring pdo_mysql pdo_pgsql zip \
+              && docker-php-ext-install opcache bcmath soap \
+              && pecl install redis-3.1.1 \
+              && docker-php-ext-enable redis \
+              && apk add --no-cache libpng libjpeg libpq libxml2 \
+              && apk del .dd-build-deps
+
+              COPY drupal-*.ini /usr/local/etc/php/conf.d/
+            </code></pre>
+            <aside class="notes">
+              It does look like code, doesn't it? It has Instructions, some very common linux commands, it even can be
+              compiled (docker build ...).
+            </aside>
+          </section>
+
+          <!-- Lets ask ourselves one, very important question. -->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background-color="#4d73ae"
+          >
+            <h1 class="sectionTitle fragment">Does Docker follow programming design principles?</h1>
+            <h2 class="sectionSubtitle fragment">Let's find out together</h2>
+            <aside class="notes">
+              Ok, so let's ask ourselves the one, very important question.
+              Subtitle: Is Docker a programming (infrastructure) language?
+            </aside>
+          </section>
+        </section>
+
+        <!-- Principles: DRY-->
+        <section>
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background-color="#4d73ae"
+          >
+            <h1 class="sectionTitle">DRY</h1>
+            <h2 class="sectionSubtitle fragment">Do not repeat yourself</h2>
+          </section>
+
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <h1 class="sectionTitle">Dockerfile</h1>
+            <pre><code data-trim data-noescape>
+              FROM php:7.0-fpm-alpine
+              MAINTAINER drupal-docker
+
+              RUN apk add --no-cache --virtual .dd-build-deps libpng-dev libjpeg-turbo-dev postgresql-dev libxml2-dev $PHPIZE_DEPS \
+              && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
+              && docker-php-ext-install gd mbstring pdo_mysql pdo_pgsql zip \
+              && docker-php-ext-install opcache bcmath soap \
+              && pecl install redis-3.1.1 \
+              && docker-php-ext-enable redis \
+              && apk add --no-cache libpng libjpeg libpq libxml2 \
+              && apk del .dd-build-deps
+
+              COPY drupal-*.ini /usr/local/etc/php/conf.d/
+            </code></pre>
+            <aside class="notes">
+              You know Docker, right? Let's try to think together if Dockerfile* is compatible with this principle? Or
+              more accurate - is the Image built from this Dockerfile something that can be considered as compatible with
+              DRY principle? How Docker can be DRY-compatible?
+            </aside>
+          </section>
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <ul class="fragment">
+              <li>Images
               <ul>
-                <li>Item level 2</li>
-                <li>Item level 2</li>
+                <li>Inheritance</li>
+                <li>ADD/COPY</li>
               </ul>
-            </li>
-            <li>Item level 1</li>
-            <li>Item level 1</li>
-            <li>Item level 1</li>
-          </ul>
+              </li>
+              <li>Repositories</li>
+              <li>more?</li>
+            </ul>
+            <aside class="notes">
+              You know Docker? Let's try to think together is Dockerfile*
+            </aside>
+          </section>
+        </section>
+
+        <!-- Principles: KISS-->
+        <section>
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background-color="#4d73ae"
+          >
+            <h1 class="sectionTitle">KISS</h1>
+            <h2 class="sectionSubtitle fragment">Keep it simple stupid</h2>
+          </section>
+
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <h1 class="sectionTitle">Dockerfile</h1>
+            <pre><code data-trim data-noescape>
+              FROM drupaldocker/php:7.0-fpm-2.x
+              MAINTAINER drupal-docker
+
+              RUN apk add --no-cache --virtual .dd-build-deps $PHPIZE_DEPS \
+               && pecl install xdebug-2.6.0beta1 \
+               && docker-php-ext-enable xdebug \
+               && apk del .dd-build-deps
+
+              COPY drupal-*.ini /usr/local/etc/php/conf.d/
+            </code></pre>
+            <aside class="notes">
+              Let's do it again - is the Image built from this Dockerfile something that can be considered as compatible with
+              KISS principle?
+            </aside>
+          </section>
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <ul class="fragment">
+              <li>just 7 lines</li>
+              <li>4 instructions</li>
+              <li>3 effective instructions</li>
+              <li>easy ro read and write</li>
+            </ul>
+            <aside class="notes">
+              You know Docker? Let's try to think together is Dockerfile*
+            </aside>
+          </section>
+        </section>
+
+        <!-- Principles: YAGNI -->
+        <section>
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background-color="#4d73ae"
+          >
+            <h1 class="sectionTitle">YAGNI</h1>
+            <h2 class="sectionSubtitle fragment">You ain't gonna need it</h2>
+          </section>
+
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <h1 class="sectionTitle">Dockerfile - php-fpm</h1>
+            <pre><code data-trim data-noescape>
+              FROM php:7.0-fpm-alpine
+              MAINTAINER drupal-docker
+
+              RUN apk add --no-cache --virtual .dd-build-deps libpng-dev libjpeg-turbo-dev postgresql-dev libxml2-dev $PHPIZE_DEPS \
+                 && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
+                 && docker-php-ext-install gd mbstring pdo_mysql pdo_pgsql zip \
+                 && docker-php-ext-install opcache bcmath soap \
+                 && pecl install redis-3.1.1 \
+                 && docker-php-ext-enable redis \
+                 && apk add --no-cache libpng libjpeg libpq libxml2 \
+                 && apk del .dd-build-deps
+
+              COPY drupal-*.ini /usr/local/etc/php/conf.d/
+            </code></pre>
+            <aside class="notes">
+              Let's do it again - is the Image built from this Dockerfile something that can be considered as compatible with
+              YAGNI principle?
+            </aside>
+          </section>
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <ul class="fragment">
+              <li>Only instructions absolutely required to run service/container added to Dockerfile</li>
+              <li>apk cache emptied</li>
+              <li>php extensions limitted to those required by core and/or most popular distributions</li>
+            </ul>
+            <aside class="notes">
+              You know Docker? Let's try to think together is Dockerfile*
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <!-- Principles: SOLID -->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background-color="#4d73ae"
+          >
+            <h1 class="sectionTitle">SOLID</h1>
+            <ul class="fragment">
+              <li>S - Single responsibility principle</li>
+              <li>O - Open/closed principle</li>
+              <li>L - Liskov substitution principle</li>
+              <li>I - Interface segregation principle</li>
+              <li>D - Dependency inversion principle</li>
+            </ul>
+          </section>
+
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <h1 class="sectionTitle">Dockerfile</h1>
+            <pre><code data-trim data-noescape>
+              FROM php:7.0-fpm-alpine
+              MAINTAINER drupal-docker
+
+              RUN apk add --no-cache --virtual .dd-build-deps libpng-dev libjpeg-turbo-dev postgresql-dev libxml2-dev $PHPIZE_DEPS \
+                 && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
+                 && docker-php-ext-install gd mbstring pdo_mysql pdo_pgsql zip \
+                 && docker-php-ext-install opcache bcmath soap \
+                 && pecl install redis-3.1.1 \
+                 && docker-php-ext-enable redis \
+                 && apk add --no-cache libpng libjpeg libpq libxml2 \
+                 && apk del .dd-build-deps
+
+              COPY drupal-*.ini /usr/local/etc/php/conf.d/
+            </code></pre>
+            <aside class="notes">
+              Let's not go crazy :) Funny enough code is actually compatible with SRP (FPM only for "serving HTTP requests")
+              OCP (to some extent if we do not allow changing application state via ENV - which is unfortunately common
+              practice), LSP (as one instruction, docker image layer, is independent for others), DIP (because our app
+              consist of separate, modular services - php, mysq - and we can swap them on demand (dependency injection).
+              Interesting right? I am excited!
+            </aside>
+          </section>
+
+        </section>
+
+        <section>
+          <!--Done!-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background-color="#4d73ae"
+          >
+            <h1 class="sectionTitle">Done!</h1>
+            <aside class="notes">
+              Please, stop this madness!
+            </aside>
+          </section>
+          <!--Can infrastructure be treated, developed and maintained as a code?-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background-color="#4d73ae"
+          >
+            <h1 class="sectionTitle">Så: <strong>Can</strong> we think of infrastructure as of code?</h1>
+            <h2 class="sectionSubtitle fragment">My answer: YES!</h2>
+          </section>
+          <!--My answer is yes-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background-color="#4d73ae"
+          >
+            <h1 class="sectionTitle">Så: <strong>Should</strong> we start thinking of infrastructure as of code!</h1>
+            <h2 class="sectionSubtitle fragment">My answer: DEFINITELY!</h2>
+            <h3 class="sectionSubtitle fragment">Starting now!</h3>
+          </section>
+        </section>
+
+        <section>
+          <!--How Docker can be married with Docker ATM.-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background-color="#4d73ae"
+          >
+            <h1 class="sectionTitle">How Docker can be used for Drupal applications</h1>
+          </section>
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <h1 class="sectionTitle">Static service container wrapper</h1>
+            <pre><code data-trim data-noescape>
+              // Returns a Drupal\Core\Datetime\Date object.
+              $date = \Drupal::service('date');
+            </code></pre>
+            <aside class="notes">
+              So Internet is full of examples like this one. This is obviously a shortcut but once you leave it without
+              a comment people tend to take it as the revelation (truth). Just copy it forgetting about DI.
+            </aside>
+          </section>
+          <!--Feature lando/ddev/docksal/etc-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <h1 class="sectionTitle">Docker+&trade;</h1>
+            <ul>
+              <li>Lando</li>
+              <li>DDEV</li>
+              <li>Docksal</li>
+              <li>more...</li>
+            </ul>
+            <aside class="notes">
+              Docker+ (by Alex Milkovskyi) is term that describes wrappers around docker-compose that make it stupid
+              simple to run application in dockerized environment without any tech knowledge.l The problem is that they
+              all copy from ourselves instead of collaborating. Unfortunately also full of anti-pattens, such
+              as running multiple processes in single container (https://github.com/drud/ddev/blob/master/containers/nginx-php-fpm-local/Dockerfile.in).
+            </aside>
+          </section>
+          <!--These were complete tools. But let's go deeper.-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background-color="#4d73ae"
+          >
+            <h1 class="sectionTitle">Let's go deeper</h1>
+          </section>
+          <!--Feature wodby-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <h1 class="sectionTitle">Docker4Drupal (Wodby)</h1>
+            <ul>
+              <li>good separation between services</li>
+              <li>amazing adoption</li>
+              <li>...but to much can be configured via ENV (!OCP :()</li>
+              <li>...but in private hands</li>
+            </ul>
+            <aside class="notes">
+              maaany services, maybe too many?, meant as product rather than component, built on alpine, many stars
+            </aside>
+          </section>
+          <!--Feature amazee-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <h1 class="sectionTitle">amazee.io</h1>
+            <ul>
+              <li>production ready</li>
+              <li>opensource</li>
+              <li>documentation++</li>
+              <li>...but overcomplicated?</li>
+              <li>...but in private hands</li>
+            </ul>
+            <aside class="notes">
+              private vendor, complexity, modularity
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <!--Call for help?-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background-color="#4d73ae"
+          >
+            <h1 class="sectionTitle">What should we do?</h1>
+          </section>
+          <!--Drupal Docker-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background-color="#4d73ae"
+          >
+            <h1 class="sectionTitle">Run it as a community initiative. <span class="fragment">Which already exists.</span> <span class="fragment">And it is called drupaldocker.org</span></h1>
+          </section>
+          <!--Goals-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <h1 class="sectionTitle">Goals:</h1>
+            <ul>
+              <li>curated list of parent images with best practices in mind</li>
+              <li>outstanding documentation</li>
+              <li>single entrypoint for drupal devs aiming for modern Infrastructure as Code</li>
+              <li>stupid simple</li>
+              <li>owned by community</li>
+              <li>distributed on same licence as Drupal</li>
+            </ul>
+          </section>
+          <!--Structure-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <h1 class="sectionTitle">Structure:</h1>
+            <img src="images/presentation/php-diagram.png">
+          </section>
+          <!--Call for help!-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background-color="#4d73ae"
+          >
+            <h1 class="sectionTitle">I love the idea, how can I help?</h1>
+            <h2 class="sectionSubtitle">- you, right now</h2>
+          </section>
+        </section>
+        <section>
+
+          <!--Questions?-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background-color="#4d73ae"
+          >
+            <h1 class="sectionTitle">Questions?</h1>
+          </section>
+          <!--Thank you!-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background-color="#4d73ae"
+          >
+            <h1 class="sectionTitle">Thank you!</h1>
+          </section>
         </section>
 
       </div>
