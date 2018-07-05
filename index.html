@@ -164,7 +164,7 @@
                   data-background="images/DDD2018/DDD2018_quote_bg.png"
                   data-background-color="#4d73ae"
           >
-            <h1 class="sectionTitle">Infrastructure is code. <span class="fragment">It must follow basic coding principles.</span></h1>
+            <h1 class="sectionTitle">Infrastructure as Code. <span class="fragment">It must follow basic coding principles.</span></h1>
             <aside class="notes">
               Yes yes yes. Sure you could "compile" image into .iso file or similar format. But what's the point? You
               could compile your application (create artifact of application state) into the same .iso  file every time
@@ -197,10 +197,9 @@
                   class="section-slide"
                   data-background-transition="fade"
                   data-transition="fade"
-                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background="images/presentation/whale.jpg"
                   data-background-color="#4d73ae"
           >
-            <h1 class="sectionTitle">Docker</h1>
             <aside class="notes">
               For further divagation let's choose Docker. Oh, yet another time someone talks about Docker. That's boring.
               I would like to try another approach on the way we look at Docker. Rather than say how to use Docker in
@@ -309,7 +308,7 @@
               </ul>
               </li>
               <li>Repositories</li>
-              <li>more?</li>
+              <li class="fragment">more?</li>
             </ul>
             <aside class="notes">
               You know Docker? Let's try to think together is Dockerfile*
@@ -423,7 +422,7 @@
               <li>php extensions limitted to those required by core and/or most popular distributions</li>
             </ul>
             <aside class="notes">
-              You know Docker? Let's try to think together is Dockerfile*
+              You know Docker? Let's try to think together
             </aside>
           </section>
         </section>
@@ -486,10 +485,9 @@
                   class="section-slide"
                   data-background-transition="fade"
                   data-transition="fade"
-                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background="images/presentation/stop-madness.gif"
                   data-background-color="#4d73ae"
           >
-            <h1 class="sectionTitle">Done!</h1>
             <aside class="notes">
               Please, stop this madness!
             </aside>
@@ -517,6 +515,30 @@
             <h2 class="sectionSubtitle fragment">My answer: DEFINITELY!</h2>
             <h3 class="sectionSubtitle fragment">Starting now!</h3>
           </section>
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <h1 class="sectionTitle">Best practices</h1>
+            <ul>
+              <li>run single process per container</li>
+              <li>decouple infrastructure</li>
+              <li>don’t install unnecessary packages</li>
+              <li>think about image size
+                <ul>
+                  <li>share parent images to minimize overall size</li>
+                  <li>clear the cache</li>
+                  <li>think layers</li>
+                </ul>
+              </li>
+            </ul>
+            <aside class="notes">
+              So Internet is full of examples like this one. This is obviously a shortcut but once you leave it without
+              a comment people tend to take it as the revelation (truth). Just copy it forgetting about DI.
+            </aside>
+          </section>
         </section>
 
         <section>
@@ -529,22 +551,6 @@
                   data-background-color="#4d73ae"
           >
             <h1 class="sectionTitle">How Docker can be used for Drupal applications</h1>
-          </section>
-          <section
-                  class="section-slide"
-                  data-background-transition="fade"
-                  data-transition="fade"
-                  data-background="images/DDD2018/DDD2018_white_bg.png"
-          >
-            <h1 class="sectionTitle">Static service container wrapper</h1>
-            <pre><code data-trim data-noescape>
-              // Returns a Drupal\Core\Datetime\Date object.
-              $date = \Drupal::service('date');
-            </code></pre>
-            <aside class="notes">
-              So Internet is full of examples like this one. This is obviously a shortcut but once you leave it without
-              a comment people tend to take it as the revelation (truth). Just copy it forgetting about DI.
-            </aside>
           </section>
           <!--Feature lando/ddev/docksal/etc-->
           <section
@@ -572,10 +578,9 @@
                   class="section-slide"
                   data-background-transition="fade"
                   data-transition="fade"
-                  data-background="images/DDD2018/DDD2018_quote_bg.png"
+                  data-background="https://i.gifer.com/S5u.gif"
                   data-background-color="#4d73ae"
           >
-            <h1 class="sectionTitle">Let's go deeper</h1>
           </section>
           <!--Feature wodby-->
           <section
@@ -627,6 +632,48 @@
           >
             <h1 class="sectionTitle">What should we do?</h1>
           </section>
+          <!--Identify issues-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <h1 class="sectionTitle">Static service container wrapper</h1>
+            <pre><code data-trim data-noescape>
+              // Returns a Drupal\Core\Datetime\Date object.
+              $date = \Drupal::service('date');
+            </code></pre>
+            <h2 class="sectionSubtitle fragment">Improve documentation</h2>
+            <aside class="notes">
+              So Internet is full of examples like this one. This is obviously a shortcut but once you leave it without
+              a comment people tend to take it as the revelation (truth). Just copy it forgetting about DI.
+              We must improve documentation.
+            </aside>
+          </section>
+          <!--Identify problems: Best practices-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/DDD2018/DDD2018_white_bg.png"
+          >
+            <h1 class="sectionTitle">Supervisor</h1>
+            <pre><code data-trim data-noescape>
+              FROM ubuntu:latest
+              RUN apt-get update && apt-get install -y supervisor
+              RUN mkdir -p /var/log/supervisor
+              COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+              COPY my_first_process my_first_process
+              COPY my_second_process my_second_process
+              CMD ["/usr/bin/supervisord"]
+            </code></pre>
+            <h2 class="sectionSubtitle fragment">Enforce best practices</h2>
+            <aside class="notes">
+              This is from official docker documentation. We must be pragmatic but also think about separating infrastructure
+              stack based on responsibility.
+            </aside>
+          </section>
           <!--Drupal Docker-->
           <section
                   class="section-slide"
@@ -648,6 +695,7 @@
             <ul>
               <li>curated list of parent images with best practices in mind</li>
               <li>outstanding documentation</li>
+              <li>verbose</li>
               <li>single entrypoint for drupal devs aiming for modern Infrastructure as Code</li>
               <li>stupid simple</li>
               <li>owned by community</li>
@@ -675,6 +723,16 @@
             <h1 class="sectionTitle">I love the idea, how can I help?</h1>
             <h2 class="sectionSubtitle">- you, right now</h2>
           </section>
+          <!--Call for help!-->
+          <section
+                  class="section-slide"
+                  data-background-transition="fade"
+                  data-transition="fade"
+                  data-background="images/presentation/call-for-help.gif"
+                  data-background-color="#4d73ae"
+          >
+          </section>
+
         </section>
         <section>
 
